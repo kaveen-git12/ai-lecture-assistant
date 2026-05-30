@@ -1,0 +1,272 @@
+.notes-view {
+  display: grid;
+  grid-template-columns: 280px minmax(420px, 1.3fr) 320px;
+  gap: 22px;
+  padding: 24px;
+}
+
+.notes-sidebar,
+.notes-main,
+.notes-side {
+  background: var(--panel-background, #121212);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.notes-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notes-sidebar-header,
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.panel-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.panel-subtitle {
+  font-size: 0.88rem;
+  color: var(--muted-text, #a5a5a5);
+}
+
+.notes-sidebar .panel-title {
+  margin-bottom: 8px;
+}
+
+.notes-sidebar .search-input,
+.note-title-input,
+.tag-input,
+.note-content-textarea,
+.language-select,
+.difficulty-select {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary, #ffffff);
+  padding: 12px 14px;
+}
+
+.notes-sidebar .search-input {
+  margin-top: 10px;
+}
+
+.tag-filter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.notes-sidebar .notes-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.note-list-item {
+  display: grid;
+  gap: 6px;
+  padding: 13px;
+  text-align: left;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+}
+
+.note-list-item.selected,
+.note-list-item:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.note-list-item .note-list-title {
+  font-weight: 700;
+}
+
+.note-list-item .note-list-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.note-list-item .tag-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+
+.note-editor,
+.notes-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.editor-header,
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.editor-actions {
+  margin-left: auto;
+}
+
+.note-title-input {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.note-meta,
+.tag-label,
+.progress-label {
+  font-size: 0.82rem;
+  color: var(--muted-text, #a5a5a5);
+  margin-top: 6px;
+}
+
+.tag-editor,
+.flashcard-section,
+.export-panel,
+.ai-generation-panel {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 16px;
+}
+
+.tag-input-row,
+.export-options,
+.ai-buttons,
+.export-buttons,
+.flashcard-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.tag-list,
+.flashcard-list,
+.ai-output-card {
+  display: grid;
+  gap: 12px;
+}
+
+.tag-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+}
+
+.note-content-textarea {
+  min-height: 320px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.control-button,
+.control-button.small {
+  border: none;
+  border-radius: 12px;
+  background: var(--button-background, #4a4fff);
+  color: #fff;
+  cursor: pointer;
+  padding: 12px 14px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.control-button.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary, #ffffff);
+}
+
+.control-button.danger {
+  background: #d45b72;
+}
+
+.control-button.small {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.control-button:hover,
+.control-button.small:hover {
+  transform: translateY(-1px);
+}
+
+.preview-placeholder,
+.note-editor-empty {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.preview-placeholder-icon {
+  font-size: 2rem;
+}
+
+.ai-output-block,
+.flashcard,
+.export-toggle,
+.preview-placeholder,
+.note-editor-empty {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.ai-output-block h4 {
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #6f9dff;
+  border-radius: 999px;
+}
+
+.flashcard {
+  display: grid;
+  gap: 12px;
+  border-radius: 16px;
+}
+
+.flashcard-content strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.export-buttons button {
+  width: 100%;
+}
+
+@media (max-width: 1260px) {
+  .notes-view {
+    grid-template-columns: 1fr;
+  }
+}

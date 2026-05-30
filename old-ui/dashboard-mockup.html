@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Lecture Assistant — Settings</title>
+  <meta name="description" content="AI Lecture Assistant settings dashboard with dark/light theming and accent color customization.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════
+       RESET & CSS VARIABLES
+       ══════════════════════════════════════ */
+    :root {
+      --bg-body: #0d0d0d;
+      --bg-sidebar: #141414;
+      --bg-card: #1a1a1a;
+      --bg-topbar: #111111;
+      --text-primary: #ffffff;
+      --text-secondary: #888888;
+      --text-muted: #555555;
+      --border-subtle: rgba(255,255,255,0.08);
+      --hover-overlay: rgba(255,255,255,0.03);
+      --accent: #00e5ff;
+      --accent-rgb: 0,229,255;
+      --accent-text: #000000;
+      --sidebar-w: 220px;
+      --topbar-h: 60px;
+      --radius-card: 12px;
+      --font-heading: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: var(--font-body);
+      background: var(--bg-body);
+      color: var(--text-primary);
+      overflow: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    body { display: flex; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
+
+    /* ══════════════════════════════════════
+       SIDEBAR
+       ══════════════════════════════════════ */
+    .sidebar {
+      width: var(--sidebar-w);
+      height: 100vh;
+      position: fixed; top: 0; left: 0;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      overflow-y: auto;
+      flex-shrink: 0;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Logo */
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 22px 20px 18px;
+    }
+    .logo-icon-box {
+      width: 38px; height: 38px;
+      border-radius: 8px;
+      background: var(--accent);
+      box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logo-text-wrap { display: flex; flex-direction: column; }
+    .logo-title {
+      font-family: var(--font-heading);
+      font-size: 15px; font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+      transition: color 0.3s ease;
+    }
+    .logo-subtitle {
+      font-size: 11px; font-weight: 400;
+      color: var(--text-secondary);
+      transition: color 0.3s ease;
+    }
+
+    /* Section Labels */
+    .nav-section {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      padding: 18px 20px 6px;
+      transition: color 0.3s ease;
+    }
+
+    /* Nav Items */
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: var(--font-body);
+      border-left: 3px solid transparent;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    .nav-item:hover {
+      background: var(--hover-overlay);
+    }
+    .nav-item.active {
+      color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.08);
+      border-left-color: var(--accent);
+    }
+    .nav-item svg {
+      width: 16px; height: 16px; flex-shrink: 0;
+      fill: none; stroke: currentColor;
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ══════════════════════════════════════
+       TOPBAR
+       ══════════════════════════════════════ */
+    .topbar {
+      position: fixed;
+      top: 0; left: var(--sidebar-w); right: 0;
+      height: var(--topbar-h);
+      background: var(--bg-topbar);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 99;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .topbar-title {
+      font-family: var(--font-heading);
+      font-size: 20px; font-weight: 700;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+    .server-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 13px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+      background: rgba(76,175,80,0.1);
+      border: 1px solid #4CAF50;
+      color: #4CAF50;
+    }
+    .server-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #4CAF50;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.7); }
+    }
+    .topbar-right { display: flex; align-items: center; gap: 8px; }
+    .ghost-btn {
+      padding: 7px 16px; border-radius: 7px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-secondary);
+      font-size: 12px; font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .ghost-btn:hover { background: rgba(255,255,255,0.07); }
+    .lang-btn {
+      padding: 7px 16px; border-radius: 7px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 12px; font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.04); }
+    .lang-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--accent-text);
+    }
+
+    /* ══════════════════════════════════════
+       MAIN CONTENT
+       ══════════════════════════════════════ */
+    .main-content {
+      margin-left: var(--sidebar-w);
+      margin-top: var(--topbar-h);
+      padding: 20px 24px 40px;
+      flex: 1;
+      min-height: calc(100vh - var(--topbar-h));
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: calc(100vw - var(--sidebar-w));
+    }
+
+    /* ══════════════════════════════════════
+       GLOW CARD
+       ══════════════════════════════════════ */
+    .glow-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-card);
+      padding: 22px 24px;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 12px 2px rgba(var(--accent-rgb), 0.35);
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-heading {
+      font-family: var(--font-heading);
+      font-size: 15px; font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+    .card-note {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-top: 14px;
+      transition: color 0.3s ease;
+    }
+
+    /* ══════════════════════════════════════
+       CARD 1 — APPEARANCE MODE
+       ══════════════════════════════════════ */
+    .appearance-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .appearance-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      transition: color 0.3s ease;
+    }
+    .seg-toggle {
+      display: inline-flex;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: border-color 0.3s ease;
+    }
+    .seg-btn {
+      padding: 9px 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .seg-btn.active {
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+
+    /* ══════════════════════════════════════
+       CARD 2 — ACCENT COLOR
+       ══════════════════════════════════════ */
+    .swatch-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      transition: color 0.3s ease;
+    }
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .swatch {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      cursor: pointer;
+      padding: 0;
+      background: none;
+      transition: border-color 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .swatch:hover { transform: scale(1.15); }
+    .swatch.active { border-color: #fff; transform: scale(1.15); }
+    .swatch-dot {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .custom-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .custom-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      transition: color 0.3s ease;
+    }
+    .color-picker {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      padding: 0;
+      background: transparent;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+    .color-picker::-webkit-color-swatch-wrapper { padding: 0; }
+    .color-picker::-webkit-color-swatch { border: none; border-radius: 50%; }
+    .color-picker::-moz-color-swatch { border: none; border-radius: 50%; }
+    .hex-preview {
+      flex: 1;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: var(--accent-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      letter-spacing: 0.5px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* ══════════════════════════════════════
+       CARD 3 — LIVE PREVIEW
+       ══════════════════════════════════════ */
+    .preview-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .pv-button {
+      padding: 7px 18px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: var(--accent-text);
+      font-family: var(--font-heading);
+      font-size: 13px; font-weight: 700;
+      cursor: default;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .pv-nav-badge {
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 2px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      font-size: 12px; font-weight: 600;
+      font-family: var(--font-body);
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+    .pv-stat-card {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 2px solid var(--accent);
+      background: transparent;
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.18);
+      color: var(--text-primary);
+      font-size: 12px; font-weight: 600;
+      font-family: var(--font-body);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    }
+    .pv-stat-number {
+      font-family: var(--font-heading);
+      font-size: 22px; font-weight: 800;
+      color: var(--accent);
+      transition: color 0.3s ease;
+    }
+
+    /* ══════════════════════════════════════
+       ANIMATION
+       ══════════════════════════════════════ */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .glow-card:nth-child(1) { animation: fadeSlideUp 0.4s ease both; }
+    .glow-card:nth-child(2) { animation: fadeSlideUp 0.4s 0.07s ease both; }
+    .glow-card:nth-child(3) { animation: fadeSlideUp 0.4s 0.14s ease both; }
+
+    /* ══════════════════════════════════════
+       OLLAMA OVERLAY
+       ══════════════════════════════════════ */
+    .ollama-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.94);
+      color: #ffffff;
+      font-family: var(--font-body);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .overlay-title {
+      font-family: var(--font-heading);
+      font-size: 24px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .overlay-subtitle {
+      font-size: 14px; color: var(--text-secondary);
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .overlay-instruction {
+      font-size: 13px; color: var(--text-muted);
+      margin-bottom: 24px;
+      background: rgba(255,255,255,0.05);
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+    .overlay-instruction code {
+      color: var(--accent);
+      font-family: monospace;
+    }
+    .overlay-counter {
+      font-size: 12px; color: var(--text-secondary);
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-bottom: 20px;
+      transition: border-top-color 0.3s ease;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ OLLAMA OVERLAY ══════════ -->
+  <div id="ollamaOverlay" class="ollama-overlay">
+    <div class="spinner"></div>
+    <h2 class="overlay-title">Starting AI Engine...</h2>
+    <p class="overlay-subtitle">Waiting for Ollama to come online at localhost:11434</p>
+    <p class="overlay-instruction">Please open a terminal and run: <code>ollama serve</code></p>
+    <p class="overlay-counter" id="retryCounter">Retrying... (attempt 0)</p>
+  </div>
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon-box" id="logoIcon">📚</div>
+      <div class="logo-text-wrap">
+        <span class="logo-title">AI Lecture</span>
+        <span class="logo-subtitle">Assistant</span>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="nav-section">Main</div>
+    <button class="nav-item" data-tab="dashboard">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" data-tab="live">
+      <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      Live Session
+    </button>
+    <button class="nav-item" data-tab="notes">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Notes
+    </button>
+    <button class="nav-item" data-tab="chat">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      AI Chat
+    </button>
+    <button class="nav-item" data-tab="quiz">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Quiz
+    </button>
+
+    <!-- TOOLS -->
+    <div class="nav-section">Tools</div>
+    <button class="nav-item" data-tab="analytics">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Analytics
+    </button>
+    <button class="nav-item" data-tab="gamification">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Gamification
+    </button>
+    <button class="nav-item" data-tab="collaborate">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      Collaborate
+    </button>
+
+    <!-- SYSTEM -->
+    <div class="nav-section">System</div>
+    <button class="nav-item active" data-tab="settings">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Settings
+    </button>
+  </aside>
+
+  <!-- ══════════ TOPBAR ══════════ -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1 class="topbar-title">Settings</h1>
+      <div class="server-pill"><div class="server-dot"></div> Server Online</div>
+      <div class="server-pill" id="aiStatusBadge" style="background: rgba(244,67,54,0.1); border: 1px solid #f44336; color: #f44336; transition: all 0.3s ease;">
+        <div class="server-dot" id="aiStatusDot" style="background: #f44336; transition: background 0.3s ease;"></div>
+        <span id="aiStatusText">AI Offline</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="ghost-btn">Smart Board</button>
+      <button class="lang-btn active" id="btnEN">EN</button>
+      <button class="lang-btn" id="btnES">ES</button>
+    </div>
+  </header>
+
+  <!-- ══════════ MAIN CONTENT ══════════ -->
+  <main class="main-content">
+
+    <!-- CARD 1 — Appearance Mode -->
+    <div class="glow-card">
+      <div class="card-heading">🌓 Appearance Mode</div>
+      <div class="appearance-row">
+        <span class="appearance-label">Choose your preferred theme</span>
+        <div class="seg-toggle" id="segToggle">
+          <button class="seg-btn active" id="segDark" onclick="setMode('dark')">🌙 Dark</button>
+          <button class="seg-btn" id="segLight" onclick="setMode('light')">☀️ Light</button>
+        </div>
+      </div>
+      <div class="card-note">Switches the entire app between dark (#0d0d0d base) and light (#f2f2f2 base) — affects sidebar, cards, topbar and all surfaces.</div>
+    </div>
+
+    <!-- CARD 2 — Accent Color -->
+    <div class="glow-card">
+      <div class="card-heading">🎨 Accent Color</div>
+      <div class="swatch-label">Pick a preset</div>
+      <div class="swatch-row" id="swatchRow"></div>
+      <div class="custom-row">
+        <span class="custom-label">Custom:</span>
+        <input type="color" class="color-picker" id="colorPicker" value="#00e5ff">
+        <div class="hex-preview" id="hexPreview">#00E5FF</div>
+      </div>
+      <div class="card-note">Accent drives: border glow, active nav, logo icon, CTA button, stat values, and language toggle. Button text auto-adapts for contrast.</div>
+    </div>
+
+    <!-- CARD 3 — Live Preview -->
+    <div class="glow-card">
+      <div class="card-heading">👁 Live Preview</div>
+      <div class="preview-strip">
+        <button class="pv-button" id="pvButton">Button</button>
+        <span class="pv-nav-badge" id="pvNavBadge">Active Nav</span>
+        <span class="pv-stat-card" id="pvStatCard">Stat Card</span>
+        <span class="pv-stat-number" id="pvStatNum">42</span>
+      </div>
+      <div class="card-note">All changes apply instantly across the entire dashboard — no save needed.</div>
+    </div>
+
+  </main>
+
+  <script>
+    /* ══════════════════════════════════════
+       PRESET SWATCHES
+       ══════════════════════════════════════ */
+    const PRESETS = [
+      { name: 'Cyan',   hex: '#00e5ff' },
+      { name: 'Red',    hex: '#f44336' },
+      { name: 'Purple', hex: '#7c3aed' },
+      { name: 'Green',  hex: '#22c55e' },
+      { name: 'Amber',  hex: '#f59e0b' },
+      { name: 'Pink',   hex: '#ec4899' },
+      { name: 'Blue',   hex: '#3b82f6' },
+      { name: 'Orange', hex: '#ff6600' },
+      { name: 'Teal',   hex: '#14b8a6' },
+      { name: 'Violet', hex: '#a855f7' },
+      { name: 'Rose',   hex: '#e11d48' },
+      { name: 'Yellow', hex: '#facc15' },
+    ];
+
+    let currentMode = 'dark';
+    let selectedIdx = 0;
+
+    /* ══════════════════════════════════════
+       OLLAMA CHECK LOGIC
+       ══════════════════════════════════════ */
+    const OLLAMA_URL = 'http://localhost:11434';
+    const RETRY_INTERVAL = 3000; // ms
+    let retryCount = 0;
+    let ollamaReady = false;
+
+    async function checkOllama() {
+      try {
+        const res = await fetch(OLLAMA_URL, { signal: AbortSignal.timeout(2000) });
+        if (res.ok || res.status === 200) {
+          ollamaReady = true;
+          hideOverlay();
+          setAIBadge('online');
+          return;
+        }
+      } catch (e) {}
+      ollamaReady = false;
+      setAIBadge('offline');
+      showOverlay();
+      retryCount++;
+      updateRetryCounter(retryCount);
+      setTimeout(checkOllama, RETRY_INTERVAL);
+    }
+
+    function showOverlay() {
+      const overlay = document.getElementById('ollamaOverlay');
+      if (overlay) {
+        overlay.style.display = 'flex';
+        setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+      }
+    }
+
+    function hideOverlay() {
+      const overlay = document.getElementById('ollamaOverlay');
+      if (overlay) {
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 300);
+      }
+    }
+
+    function setAIBadge(status) {
+      const badge = document.getElementById('aiStatusBadge');
+      const dot = document.getElementById('aiStatusDot');
+      const text = document.getElementById('aiStatusText');
+      if (!badge || !dot || !text) return;
+      if (status === 'online') {
+        badge.style.background = 'rgba(76,175,80,0.1)';
+        badge.style.borderColor = '#4CAF50';
+        badge.style.color = '#4CAF50';
+        dot.style.background = '#4CAF50';
+        text.textContent = 'AI Online';
+      } else {
+        badge.style.background = 'rgba(244,67,54,0.1)';
+        badge.style.borderColor = '#f44336';
+        badge.style.color = '#f44336';
+        dot.style.background = '#f44336';
+        text.textContent = 'AI Offline';
+      }
+    }
+
+    function updateRetryCounter(n) {
+      const counter = document.getElementById('retryCounter');
+      if (counter) {
+        counter.textContent = `Retrying... (attempt ${n})`;
+      }
+    }
+
+    /* ══════════════════════════════════════
+       INIT
+       ══════════════════════════════════════ */
+    document.addEventListener('DOMContentLoaded', () => {
+      checkOllama();
+      buildSwatches();
+      bindLang();
+      applyAccent(PRESETS[0].hex);
+    });
+
+    /* ══════════════════════════════════════
+       BUILD SWATCHES
+       ══════════════════════════════════════ */
+    function buildSwatches() {
+      const row = document.getElementById('swatchRow');
+      PRESETS.forEach((p, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'swatch' + (i === 0 ? ' active' : '');
+        btn.title = p.name;
+        btn.innerHTML = '<span class="swatch-dot" style="background:' + p.hex + '"></span>';
+        btn.addEventListener('click', () => {
+          selectedIdx = i;
+          document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+          btn.classList.add('active');
+          applyAccent(p.hex);
+        });
+        row.appendChild(btn);
+      });
+
+      document.getElementById('colorPicker').addEventListener('input', (e) => {
+        selectedIdx = -1;
+        document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+        applyAccent(e.target.value);
+      });
+    }
+
+    /* ══════════════════════════════════════
+       LANGUAGE TOGGLE
+       ══════════════════════════════════════ */
+    function bindLang() {
+      const en = document.getElementById('btnEN');
+      const es = document.getElementById('btnES');
+      en.addEventListener('click', () => { en.classList.add('active'); es.classList.remove('active'); });
+      es.addEventListener('click', () => { es.classList.add('active'); en.classList.remove('active'); });
+    }
+
+    /* ══════════════════════════════════════
+       DARK / LIGHT MODE
+       ══════════════════════════════════════ */
+    function setMode(mode) {
+      currentMode = mode;
+      const r = document.documentElement.style;
+      const segD = document.getElementById('segDark');
+      const segL = document.getElementById('segLight');
+
+      if (mode === 'dark') {
+        r.setProperty('--bg-body',       '#0d0d0d');
+        r.setProperty('--bg-sidebar',    '#141414');
+        r.setProperty('--bg-card',       '#1a1a1a');
+        r.setProperty('--bg-topbar',     '#111111');
+        r.setProperty('--text-primary',  '#ffffff');
+        r.setProperty('--text-secondary','#888888');
+        r.setProperty('--text-muted',    '#555555');
+        r.setProperty('--border-subtle', 'rgba(255,255,255,0.08)');
+        r.setProperty('--hover-overlay', 'rgba(255,255,255,0.03)');
+        segD.classList.add('active');
+        segL.classList.remove('active');
+      } else {
+        r.setProperty('--bg-body',       '#f2f2f2');
+        r.setProperty('--bg-sidebar',    '#e6e6e6');
+        r.setProperty('--bg-card',       '#ffffff');
+        r.setProperty('--bg-topbar',     '#fafafa');
+        r.setProperty('--text-primary',  '#111111');
+        r.setProperty('--text-secondary','#666666');
+        r.setProperty('--text-muted',    '#999999');
+        r.setProperty('--border-subtle', 'rgba(0,0,0,0.10)');
+        r.setProperty('--hover-overlay', 'rgba(0,0,0,0.03)');
+        segL.classList.add('active');
+        segD.classList.remove('active');
+      }
+      // Re-apply swatch ring color for new mode
+      updateSwatchRings();
+    }
+
+    /* ══════════════════════════════════════
+       ACCENT ENGINE
+       ══════════════════════════════════════ */
+    function hexToRgb(hex) {
+      hex = hex.replace('#', '');
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      return {
+        r: parseInt(hex.slice(0, 2), 16),
+        g: parseInt(hex.slice(2, 4), 16),
+        b: parseInt(hex.slice(4, 6), 16)
+      };
+    }
+
+    function relativeLuminance(hex) {
+      const { r, g, b } = hexToRgb(hex);
+      const srgb = [r, g, b].map(c => {
+        c /= 255;
+        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+    }
+
+    function contrastText(hex) {
+      return relativeLuminance(hex) > 0.35 ? '#000000' : '#ffffff';
+    }
+
+    function applyAccent(hex) {
+      const { r, g, b } = hexToRgb(hex);
+      const rs = document.documentElement.style;
+      const txtCol = contrastText(hex);
+
+      rs.setProperty('--accent', hex);
+      rs.setProperty('--accent-rgb', r + ',' + g + ',' + b);
+      rs.setProperty('--accent-text', txtCol);
+
+      // Sync picker + preview
+      document.getElementById('colorPicker').value = hex;
+      document.getElementById('hexPreview').textContent = hex.toUpperCase();
+
+      updateSwatchRings();
+    }
+
+    function updateSwatchRings() {
+      const ringColor = currentMode === 'dark' ? '#ffffff' : '#333333';
+      document.querySelectorAll('.swatch').forEach((sw, i) => {
+        if (sw.classList.contains('active')) {
+          sw.style.borderColor = ringColor;
+        } else {
+          sw.style.borderColor = 'transparent';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Frontend
+frontend/dist
+frontend/build
+frontend/.turbo
+
+# Backend
+backend/dist
+backend/build
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+.env.*.swp
+
+# Uploads (but track structure)
+uploads/raw/*
+uploads/processed/*
+!uploads/raw/.gitkeep
+!uploads/processed/.gitkeep
+
+# Testing
+coverage/
+.nyc_output/
+
+# Database
+*.db
+*.sqlite
+.mongodb/
+
+# AI Engine
+ai-engine/__pycache__/
+ai-engine/*.pyc
+ai-engine/.venv/
+ai-engine/venv/
+
+# Temporary
+temp/
+tmp/
+.cache/

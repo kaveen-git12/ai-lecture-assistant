@@ -1,0 +1,22 @@
+{
+  "short_name": "AI Lecture",
+  "name": "AI Lecture Assistant",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#1f2144",
+  "background_color": "#050523",
+  "scope": "/",
+  "description": "AI Lecture Assistant progressive web app with offline mode and collaboration."
+}

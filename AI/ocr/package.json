@@ -1,0 +1,22 @@
+{
+  "name": "ocr-note-processor",
+  "version": "1.0.0",
+  "description": "OCR and note processing module using Tesseract and AI",
+  "type": "module",
+  "main": "ocrProcessor.js",
+  "files": [
+    "ocrProcessor.js"
+  ],
+  "keywords": [
+    "ocr",
+    "tesseract",
+    "notes",
+    "ai",
+    "processor"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "tesseract.js": "^4.1.1"
+  }
+}

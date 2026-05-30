@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Lecture Assistant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 3D Space Background -->
+<div class="space-elements">
+  <div class="planet planet-1"></div>
+  <div class="planet planet-2"></div>
+  <div class="planet planet-3"></div>
+  <div class="asteroid asteroid-1"></div>
+  <div class="asteroid asteroid-2"></div>
+  <div class="asteroid asteroid-3"></div>
+  <div class="floating-particles">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
+    <div class="particle particle-7"></div>
+    <div class="particle particle-8"></div>
+  </div>
+  <div class="shooting-star star-1"></div>
+  <div class="shooting-star star-2"></div>
+  <div class="shooting-star star-3"></div>
+  <div class="cosmic-dust"></div>
+
+  <!-- Live Galaxy System -->
+  <div class="live-galaxy">
+    <div class="galaxy-core"></div>
+    <div class="galaxy-arms">
+      <div class="arm arm-1">
+        <div class="arm-segment segment-1"></div>
+        <div class="arm-segment segment-2"></div>
+        <div class="arm-segment segment-3"></div>
+        <div class="arm-segment segment-4"></div>
+      </div>
+      <div class="arm arm-2">
+        <div class="arm-segment segment-1"></div>
+        <div class="arm-segment segment-2"></div>
+        <div class="arm-segment segment-3"></div>
+        <div class="arm-segment segment-4"></div>
+      </div>
+      <div class="arm arm-3">
+        <div class="arm-segment segment-1"></div>
+        <div class="arm-segment segment-2"></div>
+        <div class="arm-segment segment-3"></div>
+        <div class="arm-segment segment-4"></div>
+      </div>
+      <div class="arm arm-4">
+        <div class="arm-segment segment-1"></div>
+        <div class="arm-segment segment-2"></div>
+        <div class="arm-segment segment-3"></div>
+        <div class="arm-segment segment-4"></div>
+      </div>
+    </div>
+    <div class="galaxy-stars">
+      <div class="star-cluster star-1"></div>
+      <div class="star-cluster star-2"></div>
+      <div class="star-cluster star-3"></div>
+      <div class="star-cluster star-4"></div>
+      <div class="star-cluster star-5"></div>
+      <div class="star-cluster star-6"></div>
+      <div class="star-cluster star-7"></div>
+      <div class="star-cluster star-8"></div>
+      <div class="star-cluster star-9"></div>
+      <div class="star-cluster star-10"></div>
+      <div class="star-cluster star-11"></div>
+      <div class="star-cluster star-12"></div>
+    </div>
+    <div class="galaxy-dust"></div>
+    <div class="galaxy-nova nova-1"></div>
+    <div class="galaxy-nova nova-2"></div>
+    <div class="galaxy-nova nova-3"></div>
+  </div>
+</div>
+
+<div class="app-container">
+
+  <h1>🤖 AI Lecture Assistant</h1>
+
+  <div class="main-container">
+
+    <!-- LEFT PANEL -->
+    <div class="glass left-panel">
+
+      <div id="status-box" class="status-box">Ready to start</div>
+      <video id="video" autoplay></video>
+
+      <div class="controls">
+        <button onclick="startCamera()">Start</button>
+        <button onclick="stopCamera()">Stop</button>
+        <button onclick="captureImage()">Capture</button>
+        <button onclick="toggleAuto()">Pause</button>
+      </div>
+
+      <p>Slides: <span id="count">0</span></p>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="glass right-panel">
+
+      <h2>AI Tools</h2>
+
+      <button onclick="extractText()">Extract Notes</button>
+      <button onclick="generateSummary()">Summary</button>
+      <button onclick="generateTopics()">Topics</button>
+      <button onclick="generatePDF()">PDF</button>
+      <button onclick="generateSmartPDF()">Smart PDF</button>
+      <button onclick="nextSlide()">Next Slide</button>
+      <button onclick="findVideos()">Find Videos</button>
+      <button onclick="enhanceWithImages()">Visual Enhance</button>
+      <button onclick="completeNotes()">Complete Notes</button>
+
+      <div class="meta-controls">
+        <label>Subject: <input id="subject" placeholder="Subject name" /></label>
+        <label>Topics: <input id="topics" placeholder="comma-separated topics" /></label>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SUMMARY / SUPER ASSISTANT -->
+  <div class="glass right-panel">
+    <h2>Super Assistant</h2>
+    <button onclick="generateSummary()">Smart Summary</button>
+    <div id="summary-box" class="assistant-box"></div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="glass bottom-panel">
+    <h2>Output</h2>
+    <div id="output"></div>
+  </div>
+
+  <!-- TOPICS -->
+  <div class="glass bottom-panel">
+    <h2>Topics</h2>
+    <div id="topics"></div>
+  </div>
+
+</div>
+
+<!-- Hidden canvas -->
+<canvas id="canvas" style="display:none;"></canvas>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+<script src="script.js"></script>
+
+  <div class="glass bottom-panel">
+    <h2>🤖 AI Assistant</h2>
+
+    <div id="chat-box"></div>
+
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Ask anything from notes...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <div class="glass bottom-panel">
+    <h2>📚 Exam Preparation AI</h2>
+    <div class="exam-inputs">
+      <label>Subject: <input id="examSubject" placeholder="e.g., Mathematics" /></label>
+      <label>Level: <input id="examLevel" placeholder="e.g., 10th Grade" /></label>
+      <label>Exam Date: <input id="examDate" type="date" /></label>
+    </div>
+    <button onclick="generateExamPrep()">Generate Exam Prep</button>
+    <div id="exam-output" class="assistant-box"></div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "smart-lecture-capture",
+  "version": "1.0.0",
+  "description": "Smart lecture capture module for detecting and saving lecture slides",
+  "type": "module",
+  "browser": true,
+  "files": [
+    "smartLectureCapture.js"
+  ],
+  "keywords": [
+    "lecture",
+    "capture",
+    "camera",
+    "slides",
+    "video"
+  ],
+  "author": "",
+  "license": "MIT"
+}
