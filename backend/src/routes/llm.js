@@ -2,6 +2,132 @@ const express = require('express');
 const router = express.Router();
 const multiLLM = require('../utils/multiLLM');
 const { authMiddleware } = require('../utils/auth');
+const ChatMessage = require('../models/ChatMessage');
+
+// ===== CHAT MESSAGE HISTORY =====
+router.post('/chat/save', async (req, res) => {
+  try {
+    const { role, content, provider = 'ollama', model = 'llama3:latest', sessionId } = req.body;
+
+    if (!role || !content || !sessionId) {
+      return res.status(400).json({ error: 'role, content, and sessionId are required' });
+    }
+
+    const message = new ChatMessage({
+      role,
+      content,
+      provider,
+      model,
+      sessionId,
+      userId: req.user?.id || null
+    });
+
+    await message.save();
+    res.json({ success: true, message });
+  } catch (error) {
+    console.error('Error saving message:', error);
+    res.status(500).json({ error: 'Failed to save message' });
+  }
+});
+
+router.get('/chat/history/:sessionId', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    const messages = await ChatMessage.find({ sessionId })
+      .sort({ createdAt: 1 })
+      .lean();
+
+    res.json({ history: messages });
+  } catch (error) {
+    console.error('Error fetching history:', error);
+    res.status(500).json({ error: 'Failed to fetch history' });
+  }
+});
+
+router.post('/chat/clear/:sessionId', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    await ChatMessage.deleteMany({ sessionId });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error clearing history:', error);
+    res.status(500).json({ error: 'Failed to clear history' });
+  }
+});
+
+// Legacy endpoint - get all messages (for backwards compatibility)
+router.get('/chat/history', async (req, res) => {
+  try {
+    // If user is authenticated, get their recent session
+    const query = req.user?.id ? { userId: req.user.id } : {};
+    const messages = await ChatMessage.find(query)
+      .sort({ createdAt: -1 })
+      .limit(100)
+      .lean();
+
+    res.json({ history: messages });
+  } catch (error) {
+    console.error('Error fetching chat history:', error);
+    res.status(500).json({ history: [] });
+  }
+});
+
+// ===== OLLAMA DIRECT CHAT =====
+router.post('/chat', async (req, res) => {
+  try {
+    const { messages, model = 'llama3:latest' } = req.body;
+
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({ error: 'Messages array is required' });
+    }
+
+    try {
+      const response = await fetch('http://localhost:11434/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model,
+          messages,
+          stream: false
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Ollama Server Error: ${response.statusText}. Response: ${errorText}`);
+      }
+
+      const data = await response.json();
+      const messageContent = data?.message?.content;
+      
+      if (!messageContent) {
+        throw new Error('Ollama response did not include a valid message.content payload.');
+      }
+
+      res.json({
+        message: messageContent,
+        provider: 'ollama',
+        model,
+        usage: {
+          inputTokens: data.prompt_eval_count || 0,
+          outputTokens: data.eval_count || 0
+        }
+      });
+    } catch (error) {
+      if (error.message.includes('ECONNREFUSED') || error.message.includes('Could not connect')) {
+        return res.status(503).json({ 
+          error: 'Ollama is not running. Please start Ollama with: OLLAMA_ORIGINS=* ollama serve'
+        });
+      }
+      throw error;
+    }
+  } catch (error) {
+    console.error('Chat error:', error);
+    res.status(500).json({ error: 'Chat failed: ' + error.message });
+  }
+});
 
 // Generate text using preferred LLM provider
 router.post('/generate', authMiddleware, async (req, res) => {

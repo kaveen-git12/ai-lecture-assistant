@@ -1,38 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import chatService from '../services/chatService';
 import ChatThread from './AIChat/ChatThread';
-import ChatInput from './AIChat/ChatInput';
-import ProviderSelector from './AIChat/ProviderSelector';
-import CompareView from './AIChat/CompareView';
-import ChatSettings from './AIChat/ChatSettings';
-import QuickActions from './AIChat/QuickActions';
 import './AIChat.css';
 
-const PROVIDERS = [
-  { id: 'gpt-4o-mini', label: 'OpenAI GPT-4o-mini' },
-  { id: 'claude-3-sonnet', label: 'Claude 3 Sonnet' },
-  { id: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash' },
-];
-
-const CONTEXT_OPTIONS = [
-  { id: 'none', label: 'No Context' },
-  { id: 'lecture', label: 'Lecture Context' },
-  { id: 'note', label: 'Note Context' },
-];
-
 function AIChat() {
-  const [mode, setMode] = useState('single');
-  const [provider, setProvider] = useState(PROVIDERS[0].id);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [compareResponses, setCompareResponses] = useState(null);
   const [history, setHistory] = useState([]);
-  const [settings, setSettings] = useState({
+  const [inputValue, setInputValue] = useState('');
+  const [settings] = useState({
     temperature: 0.7,
     systemPrompt: 'You are a helpful AI teaching assistant.',
     autoFallback: true,
   });
-  const [selectedContext, setSelectedContext] = useState('none');
+  const inputRef = useRef(null);
+  const textareaRef = useRef(null);
 
   useEffect(() => {
     loadHistory();
@@ -40,11 +22,11 @@ function AIChat() {
 
   const loadHistory = async () => {
     try {
-      const response = await chatService.getHistory();
-      const loaded = response.history || response || [];
-      setHistory(Array.isArray(loaded) ? loaded : [loaded]);
+      const loaded = await chatService.getHistory();
+      setHistory(Array.isArray(loaded) ? loaded : []);
     } catch (err) {
       console.error('Unable to fetch chat history', err);
+      setHistory([]);
     }
   };
 
@@ -52,57 +34,62 @@ function AIChat() {
     setMessages((prev) => [...prev, newMessage]);
   };
 
-  const handleSend = async (text) => {
-    if (!text.trim()) return;
-    if (mode === 'compare') {
-      return handleCompare(text);
-    }
+  const handleSend = async () => {
+    const text = inputValue.trim();
+    if (!text) return;
 
-    appendMessage({ id: `${Date.now()}-user`, role: 'user', text });
-    appendMessage({ id: `${Date.now()}-assistant`, role: 'assistant', text: 'Thinking...', provider });
+    setInputValue('');
+    
+    // Create user message object
+    const userMessage = { id: `${Date.now()}-user`, role: 'user', text };
+    const assistantPlaceholder = { id: `${Date.now()}-assistant`, role: 'assistant', text: 'Thinking...', provider: 'ollama' };
+    
+    appendMessage(userMessage);
+    appendMessage(assistantPlaceholder);
+    
+    // Save user message to history
+    await chatService.saveMessage('user', text);
+    
     setLoading(true);
 
     try {
       const response = await chatService.sendMessage({
         text,
-        provider,
-        context: selectedContext,
+        context: 'none',
         settings,
       });
-      const reply = response.reply || response.text || 'No response returned.';
+      const reply = response.message || response.reply || response.text || 'No response returned.';
+      
+      // Save assistant response to history
+      await chatService.saveMessage('assistant', reply, 'ollama', 'llama3:latest');
+      
       setMessages((prev) => prev.map((item) =>
-        item.role === 'assistant' && item.text === 'Thinking...' ? { ...item, text: reply } : item
+        item.role === 'assistant' && item.text === 'Thinking...' ? { ...item, text: reply, provider: 'ollama' } : item
       ));
     } catch (err) {
       console.error(err);
+      const errorMsg = 'AI request failed. Please try again.';
+      await chatService.saveMessage('assistant', errorMsg, 'ollama', 'llama3:latest');
       setMessages((prev) => prev.map((item) =>
-        item.role === 'assistant' && item.text === 'Thinking...' ? { ...item, text: 'AI request failed. Please try again.' } : item
+        item.role === 'assistant' && item.text === 'Thinking...' ? { ...item, text: errorMsg } : item
       ));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCompare = async (text) => {
-    appendMessage({ id: `${Date.now()}-user`, role: 'user', text });
-    setCompareResponses(null);
-    setLoading(true);
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
 
-    try {
-      const response = await chatService.compareProviders({
-        text,
-        context: selectedContext,
-        settings,
-        providers: PROVIDERS.map((p) => p.id),
-      });
-      setCompareResponses(response.responses || response);
-    } catch (err) {
-      console.error('Compare providers failed', err);
-      setCompareResponses({
-        error: 'Unable to compare providers. Try again later.',
-      });
-    } finally {
-      setLoading(false);
+  const handleTextareaChange = (e) => {
+    setInputValue(e.target.value);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 150) + 'px';
     }
   };
 
@@ -111,71 +98,48 @@ function AIChat() {
       await chatService.clearHistory();
       setHistory([]);
       setMessages([]);
-      setCompareResponses(null);
     } catch (err) {
       console.error('Unable to clear history', err);
     }
   };
 
-  const handleSettingsChange = (updates) => {
-    setSettings((prev) => ({ ...prev, ...updates }));
-  };
-
-  const handleQuickAction = (shortcut) => {
-    handleSend(shortcut);
-  };
-
-  const contextLabel = useMemo(() => CONTEXT_OPTIONS.find((item) => item.id === selectedContext)?.label || 'No Context', [selectedContext]);
-
   return (
-    <div className="aichat-root">
-      <div className="aichat-header">
-        <div>
-          <h1>AI Chat</h1>
-          <p>Ask questions, compare providers, and keep lecture context attached.</p>
-        </div>
-        <div className="aichat-modes">
-          <button className={`mode-btn ${mode === 'single' ? 'active' : ''}`} onClick={() => setMode('single')}>Single Provider</button>
-          <button className={`mode-btn ${mode === 'compare' ? 'active' : ''}`} onClick={() => setMode('compare')}>Compare Providers</button>
-        </div>
+    <div className="aichat-claude">
+      <div className="aichat-header-top">
+        <div className="model-badge">🦙 Llama 3 (Local)</div>
       </div>
 
-      <div className="aichat-controls">
-        <ProviderSelector
-          providers={PROVIDERS}
-          activeProvider={provider}
-          onSelectProvider={setProvider}
-        />
-        <div className="context-label">Context: {contextLabel}</div>
-      </div>
+      <div className="aichat-container">
+        <ChatThread messages={messages} loading={loading} />
 
-      <div className="aichat-body">
-        <main className="aichat-main">
-          {mode === 'single' ? (
-            <ChatThread messages={messages} loading={loading} />
-          ) : (
-            <CompareView responses={compareResponses} loading={loading} providers={PROVIDERS} />
-          )}
-
-          <ChatInput
-            onSend={handleSend}
-            onSelectContext={setSelectedContext}
-            selectedContext={selectedContext}
-            contextOptions={CONTEXT_OPTIONS}
-            loading={loading}
-          />
-
-          <QuickActions onAction={handleQuickAction} />
-        </main>
-
-        <aside className="aichat-side">
-          <ChatSettings settings={settings} onChange={handleSettingsChange} />
-          <div className="chat-history-panel">
-            <div className="panel-title">Chat History</div>
-            <div className="history-summary">{history.length} stored conversation{history.length === 1 ? '' : 's'}</div>
-            <button className="control-button secondary" onClick={handleClearHistory}>Clear History</button>
+        <div className="aichat-input-area">
+          <div className="input-container">
+            <textarea
+              ref={textareaRef}
+              className="chat-textarea"
+              value={inputValue}
+              onChange={handleTextareaChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask a question or send a prompt..."
+              rows={1}
+              disabled={loading}
+            />
+            <button
+              className="send-button"
+              onClick={handleSend}
+              disabled={loading || !inputValue.trim()}
+              title="Send"
+            >
+              ↑
+            </button>
           </div>
-        </aside>
+        </div>
+
+        {history.length > 0 && (
+          <button className="clear-history-btn" onClick={handleClearHistory}>
+            Clear History ({history.length})
+          </button>
+        )}
       </div>
     </div>
   );
