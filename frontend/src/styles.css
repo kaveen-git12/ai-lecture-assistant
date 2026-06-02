@@ -1801,3 +1801,153 @@ body { -webkit-font-smoothing: antialiased; }
   }
 }
 
+/* ============================
+   INTERACTIVE ANIMATIONS
+   ============================ */
+
+/* Keyframe animations */
+@keyframes popIn {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes buttonClick {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.95);
+  }
+  75% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slideHover {
+  0% {
+    background: rgba(255, 255, 255, 0);
+  }
+  100% {
+    background: rgba(var(--accent-rgb), 0.06);
+  }
+}
+
+/* All buttons and interactive elements */
+button,
+[role="button"],
+a,
+.control-button,
+.tab-pill,
+.welcome-chip-btn,
+.context-tab-btn,
+.pdf-use-btn,
+.slides-use-btn,
+.claim-bonus-btn,
+.practice-btn,
+.search-button,
+.tab-btn,
+input[type="button"],
+input[type="submit"] {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Hover background shade effect */
+button:hover:not(:disabled),
+[role="button"]:hover,
+a:hover,
+.control-button:hover:not(:disabled),
+.tab-pill:hover,
+.welcome-chip-btn:hover,
+.context-tab-btn:hover,
+.pdf-use-btn:hover:not(:disabled),
+.slides-use-btn:hover:not(:disabled),
+.claim-bonus-btn:hover:not(:disabled),
+.practice-btn:hover,
+.search-button:hover,
+.tab-btn:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  animation: slideHover 0.2s ease forwards;
+  box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.15);
+}
+
+/* Click/Pop animation */
+button:active:not(:disabled),
+[role="button"]:active,
+.control-button:active:not(:disabled),
+.tab-pill:active,
+.welcome-chip-btn:active,
+.context-tab-btn:active,
+.pdf-use-btn:active:not(:disabled),
+.slides-use-btn:active:not(:disabled),
+.claim-bonus-btn:active:not(:disabled),
+.practice-btn:active,
+.search-button:active,
+.tab-btn:active,
+input[type="button"]:active,
+input[type="submit"]:active {
+  animation: buttonClick 0.4s ease;
+  box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.2);
+}
+
+/* Interactive cards and containers */
+.pdf-context-card:hover,
+.slide-context-card:hover,
+.leaderboard-controls select:hover,
+.metric-card:hover,
+.topic-row:hover,
+.breakdown-row:hover,
+.recommendation-item:hover,
+.search-result-card:hover,
+.friend-card:hover,
+.badge-card:hover {
+  background-color: rgba(var(--accent-rgb), 0.04);
+  box-shadow: inset 0 0 8px rgba(var(--accent-rgb), 0.08);
+  transition: all 0.25s ease;
+}
+
+/* Smooth transitions for all interactive elements */
+select,
+input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="password"],
+textarea {
+  transition: all 0.2s ease;
+}
+
+select:hover,
+input[type="text"]:hover,
+input[type="date"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+textarea:hover {
+  background-color: rgba(var(--accent-rgb), 0.04);
+  border-color: rgba(var(--accent-rgb), 0.2);
+}
+
+select:focus,
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
+  background-color: rgba(var(--accent-rgb), 0.06);
+}
+
