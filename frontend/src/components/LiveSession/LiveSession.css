@@ -8,12 +8,13 @@
 
 .live-session-panel {
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 2px solid var(--accent);
   border-radius: 18px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  transition: border-color 0.3s ease;
 }
 
 .live-session-column {
@@ -43,8 +44,9 @@
   border-radius: 16px;
   background: #090909;
   overflow: hidden;
-  border: 1px solid rgba(var(--accent-rgb), 0.14);
+  border: 2px solid var(--accent);
   min-height: 320px;
+  transition: border-color 0.3s ease;
 }
 
 .capture-card video {
@@ -180,8 +182,9 @@
 .metadata-panel {
   background: var(--bg-card);
   border-radius: 16px;
-  border: 1px solid var(--border-subtle);
+  border: 2px solid var(--accent);
   padding: 18px;
+  transition: border-color 0.3s ease;
 }
 
 .transcript-box {
