@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import AccountSettings from './AccountSettings';
-import AIProviderSettings from './AIProviderSettings';
 import NotificationSettings from './NotificationSettings';
 import LanguageSettings from './LanguageSettings';
 import DataSettings from './DataSettings';
@@ -80,8 +79,24 @@ export default function Settings({
           </p>
         </section>
 
+        <section className="settings-card glow-border">
+          <div className="settings-card-header">
+            <div>
+              <div className="settings-card-title">🤖 AI Provider</div>
+            </div>
+            <div className="ai-provider-status">
+              <div className="status-dot"></div>
+              <span className="status-text">Ollama (Local)</span>
+            </div>
+          </div>
+          <div className="settings-form">
+            <p className="settings-card-description">
+              Running llama3:latest on localhost:11434
+            </p>
+          </div>
+        </section>
+
         <AccountSettings />
-        <AIProviderSettings />
         <NotificationSettings />
         <LanguageSettings />
         <DataSettings />
