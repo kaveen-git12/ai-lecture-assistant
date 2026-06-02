@@ -13,12 +13,10 @@ const noteRoutes = require("./src/routes/notes");
 const exportRoutes = require("./src/routes/export");
 const llmRoutes = require("./src/routes/llm");
 const spacedRepetitionRoutes = require("./src/routes/spacedRepetition");
-const collaborationRoutes = require("./src/routes/collaboration");
 const subtitleRoutes = require("./src/routes/subtitles");
 const semanticSearchRoutes = require("./src/routes/semanticSearch");
 const analyticsRoutes = require("./src/routes/analytics");
 const gamificationRoutes = require("./src/routes/gamification");
-const webrtcRoutes = require("./src/routes/webrtc");
 const boardMonitorRoutes = require("./src/routes/boardMonitor");
 
 // Node 18+ has fetch built-in
@@ -31,17 +29,6 @@ app.use(cors());
 // increase JSON body size for image upload payloads
 app.use(express.json({ limit: '30mb' }));
 app.use(express.urlencoded({ extended: true, limit: '30mb' }));
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Serve PWA resources from public if missing in dist
-app.get('/manifest.json', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'manifest.json'));
-});
-
-app.get('/service-worker.js', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'service-worker.js'));
-});
-
 // ===== DATABASE CONNECTION =====
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ai-lecturer';
 mongoose.connect(mongoUri)
@@ -52,11 +39,6 @@ mongoose.connect(mongoUri)
 const API_KEY = process.env.GOOGLE_API_KEY || "YOUR_NEW_API_KEY";
 
 // ===== TEST ROUTE =====
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-// ===== HEALTH CHECK =====
 app.get("/health", (req, res) => {
   const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
   res.json({ status: 'ok', db: dbStatus, uptime: process.uptime() });
@@ -106,13 +88,11 @@ app.post("/api/save-image", (req, res) => {
 // Phase 2 API routes
 app.use("/api/llm", llmRoutes);
 app.use("/api/spaced-repetition", spacedRepetitionRoutes);
-app.use("/api/collaboration", collaborationRoutes);
 app.use("/api/subtitles", subtitleRoutes);
 app.use("/api/search", semanticSearchRoutes);
 // Phase 3 API routes
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/gamification", gamificationRoutes);
-app.use("/api/webrtc", webrtcRoutes);
 app.use("/api/board-monitor", boardMonitorRoutes);
 
 // ===== CHAT API (Google Gemini) =====
