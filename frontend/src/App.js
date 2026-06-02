@@ -8,7 +8,6 @@ import Notes from './components/Notes';
 import AIChat from './components/AIChat';
 import Analytics from './components/Analytics';
 import Gamification from './components/Gamification';
-import Collaborate from './components/Collaborate';
 import QuizPanel from './components/QuizPanel';
 import Settings from './components/Settings';
 
@@ -118,6 +117,18 @@ const NavIco = {
       <path d="M11 18a6.5 6.5 0 0 1-3.5-3.5" strokeDasharray="3,3" />
     </svg>
   ),
+  roadmap: (
+    <svg viewBox="0 0 24 24">
+      <path d="M3 3h18v18H3z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+      <line x1="3" y1="8" x2="21" y2="8" stroke="currentColor" strokeWidth="1.5"/>
+      <line x1="8" y1="3" x2="8" y2="21" stroke="currentColor" strokeWidth="1.5"/>
+      <circle cx="8" cy="8" r="2" fill="currentColor"/>
+      <circle cx="16" cy="14" r="2" fill="currentColor"/>
+      <circle cx="12" cy="18" r="2" fill="currentColor"/>
+      <path d="M8 10v2a2 2 0 0 0 2 2h4" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+      <path d="M14 14h2v2" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+    </svg>
+  ),
   settings: (
     <svg viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="3" />
@@ -142,7 +153,7 @@ const NAV_GROUPS = [
     items: [
       { id: 'analytics',    label: 'Analytics',     iconKey: 'analytics' },
       { id: 'gamification', label: 'Gamification',  iconKey: 'gamification' },
-      { id: 'collaborate',  label: 'Collaborate',   iconKey: 'collaborate' },
+      { id: 'roadmap',      label: 'Roadmap',       iconKey: 'roadmap' },
     ]
   },
   {
@@ -176,7 +187,7 @@ const TAB_TITLES = {
   quiz:         'Quiz',
   analytics:    'Analytics',
   gamification: 'Gamification',
-  collaborate:  'Collaborate',
+  roadmap:      'Roadmap',
   settings:     'Settings',
 };
 
@@ -565,6 +576,99 @@ function App() {
     />
   );
 
+  const renderRoadmap = () => (
+    <div className="tab-placeholder" style={{ textAlign: 'center', padding: '60px 40px' }}>
+      <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🚀</div>
+      <h2 style={{ fontSize: '2rem', marginBottom: '10px' }}>Coming in v2.0</h2>
+      <p style={{ fontSize: '1.1rem', color: '#aaa', marginBottom: '40px' }}>
+        Study Collaboration Features & More
+      </p>
+      
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '20px',
+        maxWidth: '900px',
+        margin: '0 auto'
+      }}>
+        <div style={{
+          padding: '20px',
+          background: 'rgba(var(--accent-rgb, 245,158,11), 0.1)',
+          border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.3)',
+          borderRadius: '12px',
+          textAlign: 'left'
+        }}>
+          <h3 style={{ color: 'var(--accent)', marginBottom: '8px' }}>👥 Study Rooms</h3>
+          <p style={{ fontSize: '0.95rem', color: '#bbb' }}>Create and join real-time study rooms with peers</p>
+        </div>
+
+        <div style={{
+          padding: '20px',
+          background: 'rgba(var(--accent-rgb, 245,158,11), 0.1)',
+          border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.3)',
+          borderRadius: '12px',
+          textAlign: 'left'
+        }}>
+          <h3 style={{ color: 'var(--accent)', marginBottom: '8px' }}>📤 Resource Sharing</h3>
+          <p style={{ fontSize: '0.95rem', color: '#bbb' }}>Share lecture notes, PDFs, and study materials instantly</p>
+        </div>
+
+        <div style={{
+          padding: '20px',
+          background: 'rgba(var(--accent-rgb, 245,158,11), 0.1)',
+          border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.3)',
+          borderRadius: '12px',
+          textAlign: 'left'
+        }}>
+          <h3 style={{ color: 'var(--accent)', marginBottom: '8px' }}>🎤 Live Collaboration</h3>
+          <p style={{ fontSize: '0.95rem', color: '#bbb' }}>Study together with video, audio, and screen sharing</p>
+        </div>
+
+        <div style={{
+          padding: '20px',
+          background: 'rgba(var(--accent-rgb, 245,158,11), 0.1)',
+          border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.3)',
+          borderRadius: '12px',
+          textAlign: 'left'
+        }}>
+          <h3 style={{ color: 'var(--accent)', marginBottom: '8px' }}>👫 Study Groups</h3>
+          <p style={{ fontSize: '0.95rem', color: '#bbb' }}>Organize persistent study groups with your classmates</p>
+        </div>
+
+        <div style={{
+          padding: '20px',
+          background: 'rgba(var(--accent-rgb, 245,158,11), 0.1)',
+          border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.3)',
+          borderRadius: '12px',
+          textAlign: 'left'
+        }}>
+          <h3 style={{ color: 'var(--accent)', marginBottom: '8px' }}>💬 Group Chat</h3>
+          <p style={{ fontSize: '0.95rem', color: '#bbb' }}>Real-time messaging and collaboration conversations</p>
+        </div>
+
+        <div style={{
+          padding: '20px',
+          background: 'rgba(var(--accent-rgb, 245,158,11), 0.1)',
+          border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.3)',
+          borderRadius: '12px',
+          textAlign: 'left'
+        }}>
+          <h3 style={{ color: 'var(--accent)', marginBottom: '8px' }}>🔒 Permissions</h3>
+          <p style={{ fontSize: '0.95rem', color: '#bbb' }}>Control sharing access and group member permissions</p>
+        </div>
+      </div>
+
+      <p style={{ 
+        marginTop: '40px', 
+        fontSize: '0.95rem', 
+        color: '#888',
+        fontStyle: 'italic'
+      }}>
+        Building great features takes time. We're focusing on core functionality first!
+      </p>
+    </div>
+  );
+
   const placeholder = (icon, title, sub) => (
     <div className="tab-placeholder">
       <div className="tab-placeholder-icon">{icon}</div>
@@ -601,7 +705,7 @@ function App() {
       case 'quiz':         return <QuizPanel />;
       case 'analytics':    return <Analytics />;
       case 'gamification': return <Gamification />;
-      case 'collaborate':  return <Collaborate />;
+      case 'roadmap':      return renderRoadmap();
       case 'settings':     return renderSettings();
       default:             return renderDashboard();
     }
