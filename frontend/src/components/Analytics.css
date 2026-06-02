@@ -59,9 +59,10 @@
 .empty-state {
   padding: 28px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--accent);
   border-radius: 18px;
   color: rgba(242, 246, 255, 0.8);
+  transition: border-color 0.3s ease;
 }
 
 .analytics-status-message {
@@ -91,7 +92,8 @@
   padding: 20px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--accent);
+  transition: border-color 0.3s ease;
 }
 
 .metric-icon {
@@ -130,9 +132,10 @@
 .search-results,
 .recommendation-panel {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--accent);
   border-radius: 22px;
   padding: 22px;
+  transition: border-color 0.3s ease;
 }
 
 .panel-title {
@@ -159,7 +162,8 @@
   padding: 14px 16px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--accent);
+  transition: border-color 0.3s ease;
 }
 
 .topic-name,
