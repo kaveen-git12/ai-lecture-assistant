@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import noteService from '../services/noteService';
 import NoteEditor from './Notes/NoteEditor';
 import AIGenerationPanel from './Notes/AIGenerationPanel';
@@ -27,6 +27,7 @@ function Notes() {
   const [message, setMessage] = useState('Select or create a note to begin.');
   const [error, setError] = useState('');
   const [exportOptions, setExportOptions] = useState({ enhancedLayout: true, toc: true });
+  const [isPanelOpen, setIsPanelOpen] = useState(true);
 
   useEffect(() => {
     loadNotes();
@@ -227,16 +228,11 @@ function Notes() {
   };
 
   return (
-    <div className="notes-view">
+    <div className={`notes-view ${isPanelOpen ? 'panel-open' : ''}`}>
+      {/* Left sidebar: note list */}
       <div className="notes-sidebar">
-        <div className="notes-sidebar-header">
-          <div>
-            <div className="panel-title">Lecture Notes</div>
-            <div className="panel-subtitle">Manage your notes, tags, and quick AI workflows.</div>
-          </div>
-          <button className="control-button small" onClick={createNote} disabled={saving}>New</button>
-        </div>
-
+        <div className="notes-sidebar-header">Notes</div>
+        
         <input
           className="search-input"
           value={searchQuery}
@@ -244,46 +240,45 @@ function Notes() {
           placeholder="Search notes..."
         />
 
-        <div className="tag-filter-row">
-          <select className="language-select" value={tagFilter} onChange={(e) => setTagFilter(e.target.value)}>
-            <option value="">All tags</option>
-            {uniqueTags.map((tag) => (
-              <option key={tag} value={tag}>{tag}</option>
-            ))}
-          </select>
-          <select className="language-select" value={sortMode} onChange={(e) => setSortMode(e.target.value)}>
-            <option value="recent">Most recent</option>
-            <option value="title">Title</option>
-          </select>
+        <div className="notes-list">
+          {filteredNotes.map((note) => (
+            <button
+              key={note.id}
+              type="button"
+              className={`note-list-item ${selectedNoteId === note.id ? 'selected' : ''}`}
+              onClick={() => selectNote(note)}
+            >
+              <div className="note-list-title">{note.title || 'Untitled note'}</div>
+              <div className="note-list-meta">
+                {note.updatedAt && <span className="note-date">{new Date(note.updatedAt).toLocaleDateString()}</span>}
+                {note.flashcards?.length > 0 && <span className="note-flashcards">🧠 {note.flashcards.length}</span>}
+              </div>
+            </button>
+          ))}
         </div>
 
-        <div className="notes-list">
-          {filteredNotes.length === 0 ? (
-            <div className="preview-placeholder">
-              <div className="preview-placeholder-icon">🗂️</div>
-              <p>No notes found. Create a new note to begin.</p>
-            </div>
-          ) : (
-            filteredNotes.map((note) => (
-              <button
-                key={note.id}
-                type="button"
-                className={`note-list-item ${selectedNoteId === note.id ? 'selected' : ''}`}
-                onClick={() => selectNote(note)}
-              >
-                <div className="note-list-title">{note.title || 'Untitled note'}</div>
-                <div className="note-list-tags">
-                  {(note.tags || []).map((tag) => (
-                    <span key={tag} className="tag-pill">{tag}</span>
-                  ))}
-                </div>
-              </button>
-            ))
-          )}
-        </div>
+        {/* Add notes button at bottom */}
+        <button className="add-note-button" onClick={createNote} disabled={saving}>
+          [add notes]
+        </button>
       </div>
 
+      {/* Middle column: editor */}
       <div className="notes-main">
+        <div className="editor-top-bar">
+          <h2 className="editor-title">{noteDraft?.title || 'New Note'}</h2>
+          <div className="editor-top-actions">
+            <button className="control-button small" onClick={createNote} disabled={saving}>+ New</button>
+            <button 
+              className="hamburger-button"
+              onClick={() => setIsPanelOpen(!isPanelOpen)}
+              title={isPanelOpen ? 'Close tools panel' : 'Open tools panel'}
+            >
+              ☰
+            </button>
+          </div>
+        </div>
+
         <NoteEditor
           note={noteDraft}
           onChange={handleNoteChange}
@@ -294,32 +289,32 @@ function Notes() {
         />
       </div>
 
-      <div className="notes-side">
-        <AIGenerationPanel
-          onGenerateSummary={() => runAiCommand('summary')}
-          onGenerateConcepts={() => runAiCommand('concepts')}
-          onGenerateTopics={() => runAiCommand('topics')}
-          onGenerateStudyPlan={() => runAiCommand('studyPlan')}
-          onGenerateExam={() => runAiCommand('examPrediction')}
-          aiLoading={aiLoading}
-          aiOutput={aiOutput}
-        />
-        <FlashcardSection
-          flashcards={noteDraft?.flashcards || []}
-          onGenerateFlashcards={generateFlashcards}
-          onToggleFlip={toggleFlashcardFlip}
-          onUpdateDifficulty={updateFlashcardDifficulty}
-        />
-        <ExportPanel
-          noteId={noteDraft?.id}
-          exportOptions={exportOptions}
-          onToggleLayout={toggleExportLayout}
-          onToggleToc={toggleExportToc}
-          onExport={handleExport}
-        />
-
-        {error && <div className="preview-placeholder" style={{ color: '#ff6d6d' }}>{error}</div>}
-        {message && <div className="preview-placeholder" style={{ background: 'rgba(42, 110, 245, 0.08)' }}>{message}</div>}
+      {/* Right sidebar: collapsible tools panel */}
+      <div className={`notes-tools-panel ${!isPanelOpen ? 'closed' : ''}`}>
+        <div className="tools-content">
+          <AIGenerationPanel
+            onGenerateSummary={() => runAiCommand('summary')}
+            onGenerateConcepts={() => runAiCommand('concepts')}
+            onGenerateTopics={() => runAiCommand('topics')}
+            onGenerateStudyPlan={() => runAiCommand('studyPlan')}
+            onGenerateExam={() => runAiCommand('examPrediction')}
+            aiLoading={aiLoading}
+            aiOutput={aiOutput}
+          />
+          <FlashcardSection
+            flashcards={noteDraft?.flashcards || []}
+            onGenerateFlashcards={generateFlashcards}
+            onToggleFlip={toggleFlashcardFlip}
+            onUpdateDifficulty={updateFlashcardDifficulty}
+          />
+          <ExportPanel
+            noteId={noteDraft?.id}
+            exportOptions={exportOptions}
+            onToggleLayout={toggleExportLayout}
+            onToggleToc={toggleExportToc}
+            onExport={handleExport}
+          />
+        </div>
       </div>
     </div>
   );

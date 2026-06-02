@@ -1,16 +1,58 @@
 {
   "name": "ai-lecture-assistant",
   "version": "1.0.0",
-  "description": "AI Lecture Assistant Mono-repo",
-  "private": true,
+  "description": "AI Lecture Assistant with webcam capture, OCR, and chat API",
+  "main": "server.js",
   "scripts": {
-    "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
-    "build:frontend": "cd frontend && npm run build"
+    "build": "webpack --mode production",
+    "dev": "webpack serve --mode development",
+    "start": "npm run build && node server.js",
+    "server": "node server.js"
   },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.9.0",
+    "@google/generative-ai": "^0.1.1",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs": "^4.22.0",
+    "bcryptjs": "^2.4.3",
+    "chart.js": "^4.4.0",
+    "cors": "^2.8.5",
+    "docx": "^8.5.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "i18next": "^23.0.0",
+    "i18next-browser-languagedetector": "^7.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "jspdf": "^2.5.1",
+    "markdown-it": "^13.0.2",
+    "mongoose": "^7.5.0",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.24.0",
+    "pdfkit": "^0.13.0",
+    "react-i18next": "^13.0.1",
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.7.2",
+    "svg-captcha": "^1.4.0",
+    "tesseract.js": "^5.1.1",
+    "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "babel-loader": "^10.1.1",
+    "css-loader": "^7.1.4",
+    "html-webpack-plugin": "^5.6.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^7.0.2",
+    "webpack-dev-server": "^5.2.3"
   }
 }

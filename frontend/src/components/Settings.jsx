@@ -96,6 +96,92 @@ export default function Settings({
           </div>
         </section>
 
+        <section className="settings-card roadmap-card">
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <div style={{ fontSize: '2.5rem', marginBottom: '15px' }}>🚀</div>
+            <h3 style={{ fontSize: '1.3rem', marginBottom: '8px', color: 'var(--accent)' }}>Coming in v2.0</h3>
+            <p style={{ fontSize: '0.95rem', color: '#aaa', marginBottom: '20px' }}>
+              Study Collaboration Features
+            </p>
+            
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+              gap: '12px',
+              marginTop: '15px'
+            }}>
+              <div style={{
+                padding: '12px',
+                background: 'rgba(var(--accent-rgb, 245,158,11), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.2)',
+                borderRadius: '8px',
+                fontSize: '0.85rem'
+              }}>
+                👥 Study Rooms
+              </div>
+
+              <div style={{
+                padding: '12px',
+                background: 'rgba(var(--accent-rgb, 245,158,11), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.2)',
+                borderRadius: '8px',
+                fontSize: '0.85rem'
+              }}>
+                📤 Resource Sharing
+              </div>
+
+              <div style={{
+                padding: '12px',
+                background: 'rgba(var(--accent-rgb, 245,158,11), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.2)',
+                borderRadius: '8px',
+                fontSize: '0.85rem'
+              }}>
+                🎤 Live Collab
+              </div>
+
+              <div style={{
+                padding: '12px',
+                background: 'rgba(var(--accent-rgb, 245,158,11), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.2)',
+                borderRadius: '8px',
+                fontSize: '0.85rem'
+              }}>
+                👫 Study Groups
+              </div>
+
+              <div style={{
+                padding: '12px',
+                background: 'rgba(var(--accent-rgb, 245,158,11), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.2)',
+                borderRadius: '8px',
+                fontSize: '0.85rem'
+              }}>
+                💬 Group Chat
+              </div>
+
+              <div style={{
+                padding: '12px',
+                background: 'rgba(var(--accent-rgb, 245,158,11), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb, 245,158,11), 0.2)',
+                borderRadius: '8px',
+                fontSize: '0.85rem'
+              }}>
+                🔒 Permissions
+              </div>
+            </div>
+
+            <p style={{ 
+              marginTop: '15px', 
+              fontSize: '0.8rem', 
+              color: '#666',
+              fontStyle: 'italic'
+            }}>
+              Building great features takes time. Focus on core first!
+            </p>
+          </div>
+        </section>
+
         <AccountSettings />
         <NotificationSettings />
         <LanguageSettings />

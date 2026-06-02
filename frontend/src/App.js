@@ -153,7 +153,6 @@ const NAV_GROUPS = [
     items: [
       { id: 'analytics',    label: 'Analytics',     iconKey: 'analytics' },
       { id: 'gamification', label: 'Gamification',  iconKey: 'gamification' },
-      { id: 'roadmap',      label: 'Roadmap',       iconKey: 'roadmap' },
     ]
   },
   {
@@ -187,7 +186,6 @@ const TAB_TITLES = {
   quiz:         'Quiz',
   analytics:    'Analytics',
   gamification: 'Gamification',
-  roadmap:      'Roadmap',
   settings:     'Settings',
 };
 
@@ -705,7 +703,6 @@ function App() {
       case 'quiz':         return <QuizPanel />;
       case 'analytics':    return <Analytics />;
       case 'gamification': return <Gamification />;
-      case 'roadmap':      return renderRoadmap();
       case 'settings':     return renderSettings();
       default:             return renderDashboard();
     }

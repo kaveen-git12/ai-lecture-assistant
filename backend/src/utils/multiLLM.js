@@ -238,7 +238,7 @@ class MultiLLM {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'llama3.2',
+          model: 'llama3:latest',
           messages,
           stream: false
         })
