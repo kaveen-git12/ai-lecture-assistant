@@ -22,9 +22,10 @@
 .leaderboard-panel,
 .friends-panel {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--accent);
   border-radius: 22px;
   padding: 24px;
+  transition: border-color 0.3s ease;
 }
 
 .hero-card {
@@ -147,12 +148,13 @@
   padding: 16px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--accent);
+  transition: border-color 0.3s ease;
 }
 
 .badge-card.unlocked {
   border-color: var(--accent);
-  box-shadow: 0 0 0 1px rgba(255, 145, 0, 0.16), 0 20px 40px rgba(255, 145, 0, 0.08);
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb), 0.2), 0 20px 40px rgba(var(--accent-rgb), 0.12);
 }
 
 .badge-icon {
@@ -204,17 +206,21 @@
 }
 
 .tab-pill {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.03);
-  color: #f9fbff;
-  border-radius: 999px;
-  padding: 8px 14px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(249, 251, 255, 0.72);
+  border-radius: 12px;
+  padding: 10px 18px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .tab-pill.active {
-  background: rgba(255, 145, 0, 0.18);
+  background: rgba(var(--accent-rgb), 0.12);
   border-color: var(--accent);
+  color: var(--accent);
 }
 
 .leaderboard-table-wrap {
@@ -238,7 +244,8 @@
 }
 
 .current-user {
-  background: rgba(255, 145, 0, 0.14);
+  background: rgba(var(--accent-rgb), 0.08);
+  border-left: 3px solid var(--accent);
 }
 
 .friends-grid {
@@ -254,14 +261,15 @@
   padding: 14px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--accent);
+  transition: border-color 0.3s ease;
 }
 
 .friend-avatar {
   width: 54px;
   height: 54px;
   border-radius: 16px;
-  background: rgba(255, 145, 0, 0.16);
+  background: rgba(var(--accent-rgb), 0.12);
   color: var(--accent);
   display: grid;
   place-items: center;
@@ -317,8 +325,30 @@
   color: var(--accent);
   padding: 12px 16px;
   border-radius: 16px;
-  background: rgba(255, 145, 0, 0.12);
-  border: 1px solid rgba(255, 145, 0, 0.28);
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+}
+
+.leaderboard-controls select {
+  padding: 10px 14px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(249, 251, 255, 0.72);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.leaderboard-controls select:hover {
+  border-color: rgba(var(--accent-rgb), 0.3);
+}
+
+.leaderboard-controls select:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.08);
 }
 
 @media (max-width: 980px) {
