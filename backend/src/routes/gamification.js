@@ -69,27 +69,19 @@ router.get('/achievements', authMiddleware, async (req, res) => {
     const userId = req.userId;
     const gamification = await Gamification.findOne({ userId });
     
-    if (!gamification) {
-      return res.json({
-        unlocked: [],
-        available: Object.entries(ACHIEVEMENTS).map(([id, ach]) => ({
-          id,
-          ...ach
-        }))
-      });
-    }
+    const unlockedIds = gamification?.achievements?.map(a => a.achievementId) || [];
     
-    const unlockedIds = gamification.achievements.map(a => a.achievementId);
+    const achievements = Object.entries(ACHIEVEMENTS).map(([id, ach]) => ({
+      id,
+      name: ach.name,
+      description: ach.description,
+      points: ach.points,
+      icon: ach.icon,
+      rarity: ach.rarity,
+      unlocked: unlockedIds.includes(id)
+    }));
     
-    res.json({
-      unlocked: gamification.achievements,
-      available: Object.entries(ACHIEVEMENTS)
-        .filter(([id]) => !unlockedIds.includes(id))
-        .map(([id, ach]) => ({
-          id,
-          ...ach
-        }))
-    });
+    res.json(achievements);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -395,16 +387,21 @@ router.get('/friends', authMiddleware, async (req, res) => {
       ]
     }).populate('friendId userId', 'username email avatar');
     
-    const friends = friendships.map(f => {
+    const friends = await Promise.all(friendships.map(async (f) => {
       const friendData = f.userId._id.equals(userId) ? f.friendId : f.userId;
+      const gamification = await Gamification.findOne({ userId: friendData._id });
+      
       return {
         id: friendData._id,
         username: friendData.username,
+        name: friendData.username,
         email: friendData.email,
         avatar: friendData.avatar,
+        points: gamification?.totalPoints || 0,
+        level: gamification?.level || 1,
         status: 'online'
       };
-    });
+    }));
     
     res.json({ friends });
   } catch (error) {
