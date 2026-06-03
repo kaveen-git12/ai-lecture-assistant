@@ -28,21 +28,24 @@ function Gamification() {
   const loadGamification = async () => {
     setLoading(true);
     try {
-      const [profileRes, achievementsRes, leaderboardRes, friendsRes] = await Promise.all([
-        gamificationService.getProfile(),
-        gamificationService.getAchievements(),
-        gamificationService.getLeaderboard(),
-        gamificationService.getFriends(),
-      ]);
+      const profileRes = await gamificationService.getProfile().catch(() => ({}));
+      const achievementsRes = await gamificationService.getAchievements().catch(() => ({}));
+      const leaderboardRes = await gamificationService.getLeaderboard().catch(() => ({}));
+      const friendsRes = await gamificationService.getFriends().catch(() => ({}));
 
-      setProfile(profileRes || {});
-      setAchievements(achievementsRes.achievements || achievementsRes || []);
-      setLeaderboard(leaderboardRes.entries || leaderboardRes || []);
-      setFriends(friendsRes.friends || friendsRes || []);
-      setGoals(profileRes.goals || []);
+      setProfile(profileRes && typeof profileRes === 'object' ? profileRes : {});
+      setAchievements(Array.isArray(achievementsRes) ? achievementsRes : (achievementsRes?.achievements && Array.isArray(achievementsRes.achievements) ? achievementsRes.achievements : []));
+      setLeaderboard(Array.isArray(leaderboardRes) ? leaderboardRes : (leaderboardRes?.entries && Array.isArray(leaderboardRes.entries) ? leaderboardRes.entries : []));
+      setFriends(Array.isArray(friendsRes) ? friendsRes : (friendsRes?.friends && Array.isArray(friendsRes.friends) ? friendsRes.friends : []));
+      setGoals((profileRes?.goals && Array.isArray(profileRes.goals)) ? profileRes.goals : []);
     } catch (err) {
       console.error('Unable to load gamification data', err);
       setError('Unable to load gamification content.');
+      setProfile({});
+      setAchievements([]);
+      setLeaderboard([]);
+      setFriends([]);
+      setGoals([]);
     } finally {
       setLoading(false);
     }
