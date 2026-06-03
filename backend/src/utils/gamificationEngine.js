@@ -261,16 +261,21 @@ async function updateStreak(userId) {
 async function getLeaderboard(classId, limit = 20) {
   try {
     const leaderboard = await Gamification.find()
+      .populate('userId', 'username email avatar')
       .sort({ totalPoints: -1 })
       .limit(limit)
       .select('userId totalPoints level currentStreak.count');
     
     return leaderboard.map((entry, index) => ({
+      id: entry._id,
       rank: index + 1,
-      userId: entry.userId,
+      userId: entry.userId._id,
+      username: entry.userId.username || 'Anonymous',
+      name: entry.userId.username || 'Anonymous',
       points: entry.totalPoints,
       level: entry.level,
-      streak: entry.currentStreak?.count || 0
+      streak: entry.currentStreak?.count || 0,
+      type: 'global'
     }));
   } catch (error) {
     console.error('Error getting leaderboard:', error);
