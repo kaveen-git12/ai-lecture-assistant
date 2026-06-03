@@ -10,6 +10,7 @@ import Analytics from './components/Analytics';
 import Gamification from './components/Gamification';
 import QuizPanel from './components/QuizPanel';
 import Settings from './components/Settings';
+import AuthPanel from './components/AuthPanel';
 
 import {
   getSummary,
@@ -215,6 +216,7 @@ function App() {
   const { i18n } = useTranslation();
 
   /* ── UI state ── */
+  const [isLoggedIn, setIsLoggedIn]       = useState(!!localStorage.getItem('token'));
   const [activeTab, setActiveTab]       = useState('dashboard');
   const [darkMode, setDarkMode]         = useState(true);
   const [accentIdx, setAccentIdx]       = useState(4);
@@ -436,35 +438,27 @@ function App() {
     <div className="dashboard-view">
       {/* Hero card */}
       <div className="hero-card glow-border">
-        <div className="hero-icon">🎓</div>
-        <h2 className="hero-title">Welcome back!</h2>
+        <img src="/images/logo.png" alt="AI Lecture Assistant" className="hero-logo" />
+        <h2 className="hero-title">WELCOME</h2>
         <p className="hero-subtitle">
           Your AI-powered lecture assistant is ready. Start a live session to capture slides, extract notes, and generate study materials automatically.
         </p>
-        <button className="cta-button" onClick={() => setActiveTab('live')}>
-          {/* Camera + sparkle icon matching screenshot */}
-          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-            <path d="M20 7h-2.5l-1.5-2h-8L6.5 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-8 11c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
-            <circle cx="12" cy="13" r="3"/>
-          </svg>
-          Open Live Session
-        </button>
       </div>
 
       {/* Stat cards */}
       <div className="stats-row">
         <div className="stat-card glow-border">
-          <div className="stat-icon-wrap">📁</div>
+          <img src="/slides-icon.svg" alt="Slides" className="stat-icon-image" />
           <div className="stat-value">{slides.length}</div>
           <div className="stat-label">Slides Taken</div>
         </div>
         <div className="stat-card glow-border">
-          <div className="stat-icon-wrap">📝</div>
+          <img src="/notes-icon.svg" alt="Notes" className="stat-icon-image" />
           <div className="stat-value">{extractedText ? extractedText.split(/\s+/).filter(Boolean).length : 0}</div>
           <div className="stat-label">Notes Extracted</div>
         </div>
         <div className="stat-card glow-border">
-          <div className="stat-icon-wrap">⏱️</div>
+          <img src="/clock-icon.svg" alt="Study Time" className="stat-icon-image" />
           <div className="stat-value">0h</div>
           <div className="stat-label">Study Time</div>
         </div>
@@ -711,6 +705,11 @@ function App() {
   /* ─────────────────────────────────
      JSX
      ───────────────────────────────── */
+  
+  if (!isLoggedIn) {
+    return <AuthPanel />;
+  }
+  
   return (
     <div className="app-layout">
       {/* ── SIDEBAR ── */}

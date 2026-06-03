@@ -1,0 +1,12 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Feather/pen icon -->
+  <g transform="translate(20, 15)">
+    <!-- Feather shaft -->
+    <path d="M 5 50 Q 8 30 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <!-- Feather details -->
+    <path d="M 2 40 Q 4 35 6 30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 8 38 Q 10 33 12 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+    <!-- Feather base -->
+    <ellipse cx="6" cy="55" rx="3" ry="5" fill="currentColor" opacity="0.7"/>
+  </g>
+</svg>
