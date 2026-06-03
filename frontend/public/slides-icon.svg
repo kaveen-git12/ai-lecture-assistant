@@ -1,11 +1,17 @@
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Slides logo SVG - slides layers -->
-  <g transform="translate(30, 25)">
-    <!-- Dark blue layer -->
-    <rect x="0" y="5" width="20" height="25" rx="3" fill="currentColor" opacity="0.8"/>
-    <!-- Medium blue layer -->
-    <rect x="8" y="2" width="20" height="28" rx="3" fill="currentColor" opacity="0.9"/>
-    <!-- Cyan layer -->
-    <rect x="16" y="0" width="20" height="30" rx="3" fill="currentColor"/>
+  <!-- Slides logo - colorful layers -->
+  <defs>
+    <linearGradient id="slidesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:currentColor;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:currentColor;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(20, 25)">
+    <!-- Dark layer -->
+    <rect x="0" y="8" width="24" height="28" rx="4" fill="currentColor" opacity="0.6"/>
+    <!-- Medium layer -->
+    <rect x="10" y="4" width="24" height="32" rx="4" fill="currentColor" opacity="0.8"/>
+    <!-- Bright layer -->
+    <rect x="20" y="0" width="24" height="36" rx="4" fill="currentColor"/>
   </g>
 </svg>

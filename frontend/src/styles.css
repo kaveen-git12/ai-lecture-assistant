@@ -294,23 +294,19 @@ body.light-mode .hero-logo {
   align-items: center; justify-content: center;
   text-align: center;
   gap: 0;
-  min-height: 160px;
+  min-height: 240px;
   animation: fadeUp .4s ease both;
+  border: 2px solid var(--accent);
 }
 .stat-card:nth-child(2) { animation-delay: .07s; }
 .stat-card:nth-child(3) { animation-delay: .14s; }
 .stat-icon-image {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 14px;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 16px;
   object-fit: contain;
-  color: #000000;
-  filter: brightness(0%);
-}
-
-body.light-mode .stat-icon-image {
-  color: #000000;
-  filter: brightness(0%);
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
 .stat-value { font-size: 32px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }

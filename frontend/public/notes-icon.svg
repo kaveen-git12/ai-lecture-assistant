@@ -1,12 +1,13 @@
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Feather/pen icon -->
-  <g transform="translate(20, 15)">
-    <!-- Feather shaft -->
-    <path d="M 5 50 Q 8 30 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <!-- Feather details -->
-    <path d="M 2 40 Q 4 35 6 30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
-    <path d="M 8 38 Q 10 33 12 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
-    <!-- Feather base -->
-    <ellipse cx="6" cy="55" rx="3" ry="5" fill="currentColor" opacity="0.7"/>
+  <!-- Feather/Pen icon - larger and bolder -->
+  <g transform="translate(15, 10)">
+    <!-- Main feather shaft -->
+    <path d="M 8 58 Q 12 35 16 12 L 20 8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Left feather detail -->
+    <path d="M 4 48 Q 8 40 12 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <!-- Right feather detail -->
+    <path d="M 12 46 Q 16 38 20 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <!-- Quill base -->
+    <ellipse cx="10" cy="62" rx="4" ry="6" fill="currentColor" opacity="0.8"/>
   </g>
 </svg>
