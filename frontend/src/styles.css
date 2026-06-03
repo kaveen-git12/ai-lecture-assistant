@@ -266,6 +266,10 @@ body.light-mode .hero-logo {
   line-height: 1.65; max-width: 460px;
   margin-bottom: 10px;
 }
+
+body.light-mode .hero-subtitle {
+  color: #000000;
+}
 .cta-button {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; max-width: 280px;
@@ -305,8 +309,12 @@ body.light-mode .hero-logo {
   height: 100px;
   margin-bottom: 16px;
   object-fit: contain;
-  color: var(--accent);
+  color: #ffffff;
   flex-shrink: 0;
+}
+
+body.light-mode .stat-icon-image {
+  color: #000000;
 }
 
 .stat-value { font-size: 32px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }

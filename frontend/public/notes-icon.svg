@@ -1,13 +1,13 @@
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Feather/Pen icon - larger and bolder -->
-  <g transform="translate(15, 10)">
-    <!-- Main feather shaft -->
-    <path d="M 8 58 Q 12 35 16 12 L 20 8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Left feather detail -->
-    <path d="M 4 48 Q 8 40 12 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-    <!-- Right feather detail -->
-    <path d="M 12 46 Q 16 38 20 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-    <!-- Quill base -->
-    <ellipse cx="10" cy="62" rx="4" ry="6" fill="currentColor" opacity="0.8"/>
+  <!-- Feather/Pen icon - matches your design -->
+  <g transform="translate(20, 15)">
+    <!-- Main feather shaft - curved -->
+    <path d="M 12 60 Q 16 40 18 20 Q 19 10 20 5" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Left feather quill detail -->
+    <path d="M 8 50 Q 11 42 14 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+    <!-- Right feather quill detail -->
+    <path d="M 14 48 Q 17 40 20 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+    <!-- Feather quill bottom section -->
+    <path d="M 6 52 Q 9 54 12 60" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
   </g>
 </svg>
